@@ -1,45 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const bodyparser = require("body-parser");
+const LocalStrategy = require("passport-local");
+const bcryptJs = require("bcryptjs");
+const User = require('../model/user');
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 router.get('/home', (req, res, next) => {
     res.render('home');
 });
 router.get('/', (req, res, next) => {
     res.render('app');
 });
-
-
-
-router.get('/register', (req, res, next) => {
-    res.render('register');
+router.get('/app', (req, res, next) => {
+    res.render('app');
 });
-
-router.post('/register', (req, res, next) =>{
-    const user = req.body.user;
-    User.create(user, (err, newUser) => {
-        if(err){
-            res.render('register');
-        } else {
-            res.redirect('/home');
-        }
-    });
-});
-
-
-router.get('/login', (req, res, next) => {
-    res.render('login');
-});
-router.get('/login', (req, res, next) => {
-   res.render('login');
-});
-
-
-//logout user
-router.get('/logout',(req,res)=>{
-   
-    res.send("Successfully logged out")
-   
-})
-
 router.post('/search',(req,res)=>{
 
     res.json({"msg":" Welcome to Search route!"});
