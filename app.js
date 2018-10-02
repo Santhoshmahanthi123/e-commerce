@@ -50,7 +50,7 @@ app.get('/register', (req, res, next) => {
 app.post('/register',(req,res)=>{
     req.body.username
     req.body.password
-    User.register(new User({username:req.body.username}),req.body.password,(err,user)=>{
+    User.register(new User({username:req.body.username,email:req.body.email}),req.body.password,(err,user)=>{
         if(err){
             console.log(err);
             return res.render("register");
