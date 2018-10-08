@@ -89,6 +89,7 @@ a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover{
  
 }
 span Link{
+  background: none;
   padding-top: 2%;
   color: antiquewhite
 }

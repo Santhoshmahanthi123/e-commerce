@@ -3,13 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { BrowserRouter, Route } from 'react-router-dom';
-import registerServiceWorker from './registerServiceWorker';
-// import Navigation from './Navigation';
+import { Provider } from 'react-redux';
+import store from './Reducers/Store';
 
-ReactDOM.render( <BrowserRouter>
-    <div>
-       <Route path = "/" component = {App} />
-     </div>
- </BrowserRouter>, document.getElementById('root'));
+import registerServiceWorker from './registerServiceWorker';
+
+ReactDOM.render(<Provider store={store}>
+    <BrowserRouter>
+        <div>
+            <Route path = "/" component = {App} />
+            {/* <Route path = "/" component = {ImageSlider} /> */}
+        </div>
+ </BrowserRouter>
+</Provider> , document.getElementById('root'));
 
 registerServiceWorker();
