@@ -91,6 +91,7 @@ app.post('/Cloath',(req,res)=>{
      successRedirect:"/loginSuccess",
      failureRedirect:"/loginFailure"
  }),(req,res)=>{
+     console.log("#####################$$$$$", req)
  });
 app.get('/logout',(req,res)=>{
  req.logout();
