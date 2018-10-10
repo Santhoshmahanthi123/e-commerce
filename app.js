@@ -44,7 +44,7 @@ app.post('/register',(req,res)=>{
         })
     });
 });
- app.post('/login',passport.authenticate("local",{
+ app.get('/login',passport.authenticate("local",{
      successRedirect:"/loginSuccess",
      failureRedirect:"/loginFailure"
  }),(req,res)=>{
