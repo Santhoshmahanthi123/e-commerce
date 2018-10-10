@@ -9,14 +9,14 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 router.get('/Food', (req, res, next) => {
-    res.json({'msg':'hi niki'});
+    res.json({'msg':'welcome to food route!'});
 });
 router.get('/Cloathing',(req,res)=>{
 
-    res.json({"msg":" Welcome to Search route!"});
+    res.json({"msg":" Welcome to Cloathing route!"});
 });
 router.get('/Footwear',(req,res)=>{
 
-    res.json({"msg":" Welcome to Image slider route!"});
+    res.json({"msg":" Welcome to Footwear route!"});
 });
 module.exports = router;
