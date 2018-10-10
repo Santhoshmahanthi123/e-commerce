@@ -72,7 +72,7 @@ app.get('/users',(req,res)=>{
         res.statusCode(501);
     })
 })
-app.use('/', routes);
+app.use('/', routes); 
 function isLoggedIn(req,res,next)
 {
     if(req.isAuthenticated()){
