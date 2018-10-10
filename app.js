@@ -72,6 +72,17 @@ app.get('/users',(req,res)=>{
         res.statusCode(501);
     })
 })
+app.get('/Food', (req, res, next) => {
+    res.json({'msg':'welcome to food route!'});
+});
+app.get('/Cloathing',(req,res)=>{
+
+    res.json({"msg":" Welcome to Cloathing route!"});
+});
+app.get('/Footwear',(req,res)=>{
+
+    res.json({"msg":" Welcome to Footwear route!"});
+});
 app.use('/', routes); 
 function isLoggedIn(req,res,next)
 {
