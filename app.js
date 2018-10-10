@@ -19,6 +19,7 @@ mongoose.connect('mongodb://'+process.env.DBUSER+':'+process.env.DBPASSWORD+'@ds
 
 const app = express();
 
+app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended : true}));
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin", "*");
@@ -87,11 +88,11 @@ app.post('/Cloath',(req,res)=>{
         }
     });
 });
- app.get('/login',passport.authenticate("local",{
-     successRedirect:"/loginSuccess",
-     failureRedirect:"/loginFailure"
- }),(req,res)=>{
-     console.log("#####################$$$$$", req)
+ app.get('/login',bodyparser.json(), (req,res)=>{
+     const body = JSON.stringify(req.body);
+     console.log("#####################$$$$$", req.body)
+     console.log("$$$$$$$$$$$$$$$$$$$$$", body)
+     res.send("")
  });
 app.get('/logout',(req,res)=>{
  req.logout();
