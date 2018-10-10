@@ -3,21 +3,27 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyparser = require("body-parser");
 const passport = require("passport");
+// const multer = require("multer");
 const User = require('./model/user');
-const port = process.env.PORT || 8080;
+const Food = require('./model/food');
+const Foot = require('./model/foot');
+const Cloath = require('./model/cloath');
+const port = process.env.PORT || 3000;
 const routes = require('./routes/routes');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
 const passportLocalMongoose = require("passport-local-mongoose"); 
 console.log('@@@@@@@@@@@@@@@@',process.env.DBUSER,process.env.DBPASSWORD);
-mongoose.connect('mongodb://'+process.env.DBUSER+':'+process.env.DBPASSWORD+'@ds033865.mlab.com:33865/e-commerce',{ useNewUrlParser: true });
+mongoose.connect('mongodb://'+process.env.DBUSER+':'+process.env.DBPASSWORD+'@ds033865.mlab.com:33865/e-commerce',{ useNewUrlParser: true,  useCreateIndex: true, });
 //requires model with passport-local mongoose plugged In
-const ejs = require('ejs');
+
 const app = express();
 
 app.use(bodyparser.urlencoded({extended : true}));
 
-app.set('view engine','ejs');
+// app.use(require(multer({ dest: "./uploads/",rename:(fieldname, filename,next) =>{
+//       return filename;
+//     },})));
 
 app.use(require("express-session")({
     secret:"Sessions are interesting to learn",
@@ -42,6 +48,39 @@ app.post('/register',(req,res)=>{
         passport.authenticate("local")(req,res,()=>{
             res.sendStatus(200);
         });
+    });
+});
+app.post('/Food',(req,res)=>{
+    Food.create(new Food({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}),(err,food)=>{
+        if(err){
+            console.log(err);
+            res.sendStatus(501)
+        }
+        else{
+            res.sendStatus(200);
+        }
+    });
+});
+app.post('/Foot',(req,res)=>{
+    Foot.create(new Foot({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}),(err,foot)=>{
+        if(err){
+            console.log(err);
+            res.sendStatus(501)
+        }
+        else{
+            res.sendStatus(200);
+        }
+    });
+});
+app.post('/Cloath',(req,res)=>{
+    Cloath.create(new Cloath({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}),(err,cloath)=>{
+        if(err){
+            console.log(err);
+            res.sendStatus(501)
+        }
+        else{
+            res.sendStatus(200);
+        }
     });
 });
  app.get('/login',passport.authenticate("local",{
@@ -72,17 +111,34 @@ app.get('/users',(req,res)=>{
         res.statusCode(501);
     })
 })
-app.get('/Food', (req, res, next) => {
-    res.json({'msg':'welcome to food route!'});
-});
-app.get('/Cloathing',(req,res)=>{
+app.get('/Food',(req,res)=>{
+    Food.find().then((data)=>{
+        res.json(data);
+    }).catch((err)=>{
+        console.log(err);
+        res.statusCode(501);
+    })
+})
+app.get('/Foot',(req,res)=>{
+    Food.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+        res.statusCode(501);
+    })
+})
+app.get('/Cloath',(req,res)=>{
+    Cloath.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+        res.statusCode(501);
+    })
+})
 
-    res.json({"msg":" Welcome to Cloathing route!"});
-});
-app.get('/Footwear',(req,res)=>{
-
-    res.json({"msg":" Welcome to Footwear route!"});
-});
+// app.get('/Food', (req, res, next) => {
+//     res.json({'msg':'welcome to food route!'});
+// });
 app.use('/', routes); 
 function isLoggedIn(req,res,next)
 {
@@ -93,5 +149,5 @@ function isLoggedIn(req,res,next)
 }
 
 app.listen(port, (req, res)=>{
-    console.log(" Server running on port 8080 ");
+    console.log(" Server running on port 3000 ");
 });
