@@ -1,10 +1,14 @@
 import Promise from 'es6-promise';
-import file from '../file.json'
+import file from '../file.json';
+import { combineReducers } from 'redux'
+import signupReducer from './SignupReducer'
 const LOGIN_PENDING = 'LOGIN_PENDING';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_ERROR = 'LOGIN_ERROR';
 const BUTTON_CANCEL = 'BUTTON_CANCEL';
 const LOGINBUTTON_CLICK = 'LOGINBUTTON_CLICK'
+
+
 //actions
 function setLoginPending(isLoginPending){
     return {
@@ -73,11 +77,11 @@ export function login(username, password){
 
 
 // reducer function
-export default function reducer(state={
+export function reducer(state={
     isLoginPending: false,
     isLoginSuccess: false,
     loginError: null,
-    visibleModal: false
+    visibleModal: true
 }, action){
 
     switch(action.type){
@@ -114,6 +118,7 @@ export default function reducer(state={
             return state;
     }
 }
+
 
 function sendLoginRequest(username, password){
     //var result={}
@@ -161,3 +166,8 @@ function sendLoginRequest(username, password){
        
     })
 }
+
+export default combineReducers({
+    reducer,
+    signupReducer
+  })

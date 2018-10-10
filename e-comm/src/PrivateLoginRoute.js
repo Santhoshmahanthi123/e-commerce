@@ -1,5 +1,7 @@
-import React ,{Component} from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import React from 'react';
+import { Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { loginClick } from './Reducers/Reducer';
 
 const PrivateLoginRoute = ({ component: Component, currentUser, path, ...rest }) =>
   <Route
@@ -15,8 +17,24 @@ const PrivateLoginRoute = ({ component: Component, currentUser, path, ...rest })
           state: { from: props.location }
         }}
         /> :
-        <Component currentUser={currentUser} {...props}  {...rest} visibleModal={true}/>        
+        <Component currentUser={currentUser} {...props} {...rest} />        
       }
   />;
 
-export default PrivateLoginRoute;
+  const mapStateToProps= (state) =>{
+    return {
+      //isLoginSuccess: state.isLoginSuccess,
+      user: state.user,
+      visibleModal: state.visibleModal
+      
+    }
+  }
+  const dispatchToProps = (dispatch) =>{
+    return {
+      loginClick: () => dispatch(loginClick())
+    }
+}
+  
+  export default withRouter(
+    connect(mapStateToProps, dispatchToProps)(PrivateLoginRoute)
+  );

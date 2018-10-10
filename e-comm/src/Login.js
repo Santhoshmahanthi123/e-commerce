@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect, withRouter } from 'react-router-dom'
 import './Login.css';
+import SignUp from './SignUp';
 import Logo from './Logo.js'
 import { connect } from 'react-redux'
 import { login, cancelAction } from './Reducers/Reducer';
@@ -21,23 +22,26 @@ class Login extends Component {
     //     console.log(this.state.nextPage)
        
     // }
-    componentDidMount(){
+    // componentDidMount(){
      
-        const { user }= this.props;
-        console.log(user+"  Local user")
-        localStorage.setItem('somedata',"JSON.stringify(user)")   
-       // localStorage.setItem("userData", JSON.stringify(user));
-       // console.log(localStorage.getItem("userData"))
+    //     const { user }= this.props;
+    //   //  console.log(user+"  Local user")
+    //     localStorage.setItem('somedata',"JSON.stringify(user)")   
+    //    // localStorage.setItem("userData", JSON.stringify(user));
+    //    // console.log(localStorage.getItem("userData"))
     
-      }
-      handleClick =()=>{
+    //   }
+      handleClick =(e)=>{
+        e.preventDefault();
+        console.log("Cancel button called");
+        this.props.history.push('/');
+            this.props.cancelAction();
 
-        this.props.cancelAction();
       }
     onSubmit =(e) =>{
         e.preventDefault();
        // this.props.handleClick;
-        let {username, password}= this.state;
+        let {username, password}= this.state;   
         this.props.login(username, password);
         //check for isLoginSuccess
      //   console.log("%%%%%%%%%%%%%%%%%", this.props.name)
@@ -51,7 +55,7 @@ class Login extends Component {
 
         let {username, password}= this.state;
         let {isLoginPending, isLoginSuccess, loginError, user} = this.props;  
-        console.log(user+"  Local user")
+       // console.log(user+"  Local user")
          if(this.props.nextPage){
              return(
                 <Redirect to={{
@@ -62,6 +66,8 @@ class Login extends Component {
          }
     return (
         <div id="id01" className="modal" style={{display: this.props.visibleModal ? "block": "none"}}>
+         
+        {/* <SignUp handleClick={this.props.handleClick} handleSignUp={this.props.handleSignUp}  {...this.props}/>  */}
             <form className="modalContent animate" onSubmit={this.onSubmit}>
                 {/* <div className="imgContainer"> */}
                    <Logo/> 
@@ -82,7 +88,7 @@ class Login extends Component {
             
                 <div className="container" style={{backgroundColor: "#f1f1f1"}}>
                     <button type="button" onClick={this.handleClick} className="cancelbtn">Cancel</button>
-                    <span className="psw"><a href=""> Forgot password?</a></span>
+                    <span className="psw"><a onClick={this.props.handleSignUp}>Sign Up?</a></span>
                 </div>
                 {isLoginPending && <div>Please wait..</div>
                     // jquery.getElementById()

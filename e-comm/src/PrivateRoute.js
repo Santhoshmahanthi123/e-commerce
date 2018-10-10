@@ -1,6 +1,7 @@
-import React ,{Component} from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import Login from './Login';
+import React from 'react';
+import { Route, Redirect, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux'
+import { loginClick } from './Reducers/Reducer';
 
 const PrivateRoute = ({ component: Component, currentUser, path, ...rest }) =>
   <Route
@@ -9,8 +10,8 @@ const PrivateRoute = ({ component: Component, currentUser, path, ...rest }) =>
       path={path}
       render={props =>
         currentUser
-          ? 
-          <Component currentUser={currentUser} {...props}  {...rest}/> 
+          ?// console.log("resetting")
+          <Component currentUser={currentUser} {...props}  {...rest} /> 
           : 
           <Redirect
             to={{
@@ -20,66 +21,20 @@ const PrivateRoute = ({ component: Component, currentUser, path, ...rest }) =>
           /> 
       }
   />;
- 
 
-    
-
-// class PrivateRoute extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     console.log("$$$$$$$$$$$$$$$$$", props);
-//     // this.state = {
-
-//     // }
-//   }
-//   render() {
-//     console.log("()()()()()())")
-//     let Component =  this.props.component;
-//     console.log("fvdshavfhdsaghjx35278975829", Component)
-
-//     if(this.props.path === "/Login") {
-//       console.log("Inside render", this.props.path);
-//       console.log("Inside render", this.props.component );
-
-//       return 
-//           <Route
-//             // exact
-//             // {...rest}
-//             path={this.props.path}
-//             render={props =>
-//               this.props.currentUser
-//                 ? 
-//                 <Redirect
-//                   to={{
-//                     pathname: '/Profile',
-//                     state: { from: props.location }
-//                   }}
-//                 /> 
-//                 : <Component currentUser={this.props.currentUser} {...props}  {...this.props}/> 
-//             }
-//           />;
-        
-//     } else {
-//       return 
-//           <Route
-//             // exact
-//             // {...rest}
-//             path={this.props.path}
-//             render={props =>
-//               this.props.currentUser
-//                 ? <Component currentUser={this.props.currentUser} {...props}  {...this.props}/> 
-//                 : 
-//                   <Redirect
-//                     to={{
-//                       pathname: '/Login',
-//                       state: { from: props.location }
-//                     }}
-//                   />
-//             }
-//           />;
-
-//     }                                                                          
-//   }
-// }
-
-export default PrivateRoute;
+  const mapStateToProps= (state) =>{
+    return {
+   //   isLoginSuccess: state.isLoginSuccess,
+      user: state.user,
+      visibleModal: state.visibleModal      
+    }
+  }
+  const dispatchToProps = (dispatch) =>{
+    return {
+      loginClick: () => dispatch(loginClick())
+    }
+}
+  
+  export default withRouter(
+    connect(mapStateToProps,dispatchToProps)(PrivateRoute)
+  );

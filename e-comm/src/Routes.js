@@ -40,7 +40,7 @@ class Routes extends React.Component{
        return(
        <Switch>
           <Route  exact path="/" component= { ImageSlider } />
-          <PrivateLoginRoute path = "/Login" component={Login} currentUser={this.props.user} visibleModal={!this.props.visibleModal}/>
+          <PrivateLoginRoute path = "/Login" component={Login} currentUser={this.props.user} visibleModal={this.props.visibleModal}/>
             {/* <PrivateRoute exact path = "/" component = { Profile } />    */}
             {/* use render function for redirecting to authenticated */}
             <PrivateRoute path = "/Profile" component = {Profile} currentUser={this.props.user}/> 

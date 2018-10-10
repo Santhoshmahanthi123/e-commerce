@@ -3,13 +3,22 @@ import React, { Component } from 'react';
 
 class SignUp extends Component {
 
+   check =() =>{
+     //to check for password matching
+    if (document.getElementById('password').value ==
+      document.getElementById('confirm_password').value) {
+      document.getElementById('message').style.color = 'green';
+      document.getElementById('message').innerHTML = 'matching';
+    } else {
+      document.getElementById('message').style.color = 'red';
+      document.getElementById('message').innerHTML = 'not matching';
+    }
+  }
+  
   handleClick=(e)=>{
     //e.preventDefault();
     console.log("Clicked SignUp button");
-    // this.setState({
-    //   clicked:!this.state.clicked
-    // });
-    //var v= document.getElementById('id01').style.display='none';
+    
   }
 
   onSubmit = (e) =>{
@@ -27,13 +36,13 @@ class SignUp extends Component {
           <input type="text" placeholder="Enter Email" name="email" required onChange={e => this.setState({username:e.target.value})}/>
     
           <label htmlFor="password"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="password" required onChange={e => this.setState({password:e.target.value})}/>
+          <input type="password" id="password" placeholder="Enter Password" name="password" required onKeyUp={this.check} onChange={e => this.setState({password:e.target.value})}/>
     
           <label htmlFor="psw-repeat"><b>Repeat Password</b></label>
-          <input type="password" placeholder="Repeat Password" name="psw-repeat" required onChange={e => this.setState({repPassword:e.target.value})}/>
-          
+          <input type="password" placeholder="Repeat Password" id="confirm_password" name="psw-repeat" required onKeyUp={this.check} onChange={e => this.setState({repPassword:e.target.value})}/>
+          <span id='message'></span>
           <label>
-            <input type="checkbox" name="remember" style={{marginBottom:15}} onChange={this.props.handleChange} value={this.props.checkedValue}/> Remember me
+            <input type="checkbox" name="remember"  style={{marginBottom:15}} onChange={this.props.handleChange} value={this.props.checkedValue}/> Remember me
           </label>
     
           <p>By creating an account you agree to our <a href="" style={{color:"dodgerblue"}}>Terms & Privacy</a>.</p>
