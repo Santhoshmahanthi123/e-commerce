@@ -41,7 +41,7 @@ app.post('/register',(req,res)=>{
         }
         passport.authenticate("local")(req,res,()=>{
             res.sendStatus(200);
-        })heroku logs --tail
+        });
     });
 });
  app.get('/login',passport.authenticate("local",{
