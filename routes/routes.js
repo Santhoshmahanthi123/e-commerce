@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
     res.render('app');
 });
 router.get('/app', (req, res, next) => {
-    res.render('app');
+    res.json({'msg':'hi niki'});
 });
 router.post('/search',(req,res)=>{
 

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyparser = require("body-parser");
@@ -8,7 +9,8 @@ const routes = require('./routes/routes');
 const session = require('express-session');
 const LocalStrategy = require('passport-local').Strategy;
 const passportLocalMongoose = require("passport-local-mongoose"); 
-mongoose.connect('mongodb://localhost/e-commerce',{ useNewUrlParser: true })
+console.log('@@@@@@@@@@@@@@@@',process.env.DBUSER,process.env.DBPASSWORD);
+mongoose.connect('mongodb://'+process.env.DBUSER+':'+process.env.DBPASSWORD+'@ds033865.mlab.com:33865/e-commerce',{ useNewUrlParser: true });
 //requires model with passport-local mongoose plugged In
 const ejs = require('ejs');
 const app = express();
@@ -29,57 +31,46 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.get('/register', (req, res, next) => {
-    res.render('register');
-});
-
-
-// app.post('/register', (req, res, next) =>{
-//     const user = req.body.user;
-//     User.create(user, (err, newUser) => {
-//         if(err){
-//             res.render('register');
-//         }
-       
-//             passport.authenticate("local")(req,res,()=>{
-//              res.redirect("secret");
-//              });
-//             });
-//     });
-
 app.post('/register',(req,res)=>{
     req.body.username
     req.body.password
     User.register(new User({username:req.body.username,email:req.body.email}),req.body.password,(err,user)=>{
         if(err){
             console.log(err);
-            return res.render("register");
+            res.sendStatus(501)
         }
         passport.authenticate("local")(req,res,()=>{
-            res.render("login");
+            res.sendStatus(200);
         })
     });
 });
-app.get('/login', (req, res, next) => {
-    res.render('login');
- });
  app.post('/login',passport.authenticate("local",{
-     successRedirect:"/session",
-     failureRedirect:"/login"
+     successRedirect:"/loginSuccess",
+     failureRedirect:"/loginFailure"
  }),(req,res)=>{
-
  });
 app.get('/logout',(req,res)=>{
  req.logout();
- res.redirect('/login')
+ res.sendStatus(200);
+//  res.redirect('/login')
 })
-app.get('/session',isLoggedIn,(req,res)=>{
-    res.render("session");
-
+app.get('/loginSuccess',isLoggedIn,(req,res)=>{
+    res.json(req.user);
+})
+app.get('/loginFailure',isLoggedIn,(req,res)=>{
+    res.sendStatus(404);
 })
 app.get('/santhosh',isLoggedIn,(req,res)=>{
     res.render("santhosh");
 
+})
+app.get('/users',(req,res)=>{
+    User.find().then((data)=>{
+        res.json(data)
+    }).catch((err)=>{
+        console.log(err);
+        res.statusCode(501);
+    })
 })
 app.use('/', routes);
 function isLoggedIn(req,res,next)
