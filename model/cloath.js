@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const passportLocalMongoose = require("passport-local-mongoose");
-const uniqueValidator = require('mongoose-unique-validator');
 const cloathschema = new mongoose.Schema({
-    name :{type:String,dropDups:true},
+    name :String,
     description : String,
     imageURL : String,
     price : Number,
@@ -11,6 +10,5 @@ const cloathschema = new mongoose.Schema({
         default : Date.now
     }
 });
-cloathschema.plugin(uniqueValidator);
 cloathschema.plugin(passportLocalMongoose);
 module.exports = mongoose.model('Cloath', cloathschema);

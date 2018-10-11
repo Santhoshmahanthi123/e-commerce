@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
 const passportLocalMongoose = require("passport-local-mongoose");
-const uniqueValidator = require('mongoose-unique-validator');
 const foodschema = new mongoose.Schema({
-    name :{type:String,dropDups:true},
+    name :String,
     description : String,
     imageURL : String,
     price : Number,
@@ -11,6 +10,5 @@ const foodschema = new mongoose.Schema({
         default : Date.now
     }
 });
-foodschema.plugin(uniqueValidator);
 foodschema.plugin(passportLocalMongoose);
 module.exports = mongoose.model('Food', foodschema);
