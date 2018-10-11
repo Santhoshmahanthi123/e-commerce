@@ -1,10 +1,7 @@
 import Promise from 'es6-promise';
-import file from '../file.json';
+//import file from '../file.json';
 import axios from 'axios'
 import {setSignupSuccess, setSignupPending, SignupError} from '../Actions/SignupActions'
-const LOGIN_PENDING = 'LOGIN_PENDING';
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-const LOGIN_ERROR = 'LOGIN_ERROR';
 const BUTTON_CANCEL = 'BUTTON_CANCEL';
 const LOGINBUTTON_CLICK = 'LOGINBUTTON_CLICK'
 const SIGNUP_SUCCESS ='SIGNUP_SUCCESS'
@@ -51,7 +48,7 @@ export function signupReducer(state={
     }
 }
 
-export function signup(user){
+export function signupFn(user){
     return dispatch => {
         dispatch(setSignupPending(true));
         dispatch(setSignupSuccess(false, null));
@@ -83,4 +80,4 @@ function sendSignupRequest(user){
         });
 }
 
-export default signupReducer;
+export default signupFn;

@@ -24,8 +24,8 @@ const PrivateLoginRoute = ({ component: Component, currentUser, path, ...rest })
   const mapStateToProps= (state) =>{
     return {
       //isLoginSuccess: state.isLoginSuccess,
-      user: state.user,
-      visibleModal: state.visibleModal
+      user: state.reducer.user,
+      visibleModal: state.reducer.visibleModal
       
     }
   }

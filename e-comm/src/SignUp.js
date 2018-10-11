@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import {signupFn} from './Reducers/SignupReducer';
 // import './SignUp.css'
 
 class SignUp extends Component {
 
    check =() =>{
      //to check for password matching
-    if (document.getElementById('password').value ==
+    if (document.getElementById('password').value ===
       document.getElementById('confirm_password').value) {
       document.getElementById('message').style.color = 'green';
       document.getElementById('message').innerHTML = 'matching';
+      document.getElementById('submitButton').style.disabled = 'false';     
+      
     } else {
       document.getElementById('message').style.color = 'red';
       document.getElementById('message').innerHTML = 'not matching';
@@ -22,9 +27,23 @@ class SignUp extends Component {
   }
 
   onSubmit = (e) =>{
-    //setup database connection
+    e.preventDefault();
+    console.log("Clicked SignUp button");
+    let {username, password}= this.state;   
+    this.props.signupFn(username, password);
   }
   render() {
+    //console.log(this.props.signup,"SIGNUP")
+    let {isSignupPending,isSignupSuccess, SignupError} = this.props;  
+    
+    if(isSignupSuccess){
+      return(
+         <Redirect to={{
+                       pathname: '/Profile',
+                   }} push  />
+      )
+  }
+
     return (
       <div id="id01" className="modal" style={{display: this.props.signup? "block": "none"}}>
       <form className="modal-content animate" onSubmit={this.onSubmit}>
@@ -49,8 +68,13 @@ class SignUp extends Component {
     
           <div className="clearfix">
             <button type="button" onClick={this.props.handleSignUp} className="cancelbtn">Cancel</button>
-            <button type="submit" >Sign Up</button>
+            <button type="submit" id="submitButton" style={{disabled:'true'}}>Sign Up</button>
           </div>
+              {isSignupPending && <div>Please wait..</div>
+                  // jquery.getElementById()
+              }
+              {isSignupSuccess && <div>Welcome</div>}S
+              {SignupError && <div>{SignupError.message}</div>}
         </div>
       </form>
     </div>
@@ -59,4 +83,21 @@ class SignUp extends Component {
   }
 }
 
-export default SignUp;
+const mapStateToProps = (state) =>{
+
+  return {
+      isSignupPending: state.signupFn.isSignupPending,
+      isSignupSuccess: state.signupFn.isSignupSuccess,
+      SignupError: state.signupFn.SignupError,
+  };
+}
+
+const dispatchToProps = (dispatch) =>{
+  return {
+      signupFn: (username, password) => dispatch (signupFn(username, password)),
+      //cancelAction: () => dispatch(cancelAction())
+  }
+}
+export default withRouter(
+  connect(mapStateToProps, dispatchToProps)(SignUp)
+);

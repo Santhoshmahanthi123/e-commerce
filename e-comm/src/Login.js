@@ -41,6 +41,7 @@ class Login extends Component {
     onSubmit =(e) =>{
         e.preventDefault();
        // this.props.handleClick;
+    //    console.log(e)
         let {username, password}= this.state;   
         this.props.login(username, password);
         //check for isLoginSuccess
@@ -68,7 +69,7 @@ class Login extends Component {
         <div id="id01" className="modal" style={{display: this.props.visibleModal ? "block": "none"}}>
          
         {/* <SignUp handleClick={this.props.handleClick} handleSignUp={this.props.handleSignUp}  {...this.props}/>  */}
-            <form className="modalContent animate" onSubmit={this.onSubmit}>
+            <form className="modalContent animate" onSubmit={this.onSubmit} >
                 {/* <div className="imgContainer"> */}
                    <Logo/> 
                 {/* </div>  */}
@@ -80,7 +81,7 @@ class Login extends Component {
                     <label htmlFor="password"><b>Password</b></label>
                     <input type="password" placeholder="Enter Password" name="password" required onChange={e => this.setState({password:e.target.value})}></input>
                     
-                    <button type="submit" onClick={this.handleLoginClick} >Login</button>
+                    <button type="submit" >Login</button>
                     <label>
                     <input type="checkbox" name="remember" onChange={this.props.handleChange} value={this.props.checkedValue}/>Remember Me
                     </label>
@@ -104,11 +105,11 @@ class Login extends Component {
 const mapStateToProps = (state) =>{
 
     return {
-        isLoginPending: state.isLoginPending,
-        isLoginSuccess: state.isLoginSuccess,
-        loginError: state.loginError,
-        user: state.user,
-        visibleModal: state.visibleModal,
+        isLoginPending: state.reducer.isLoginPending,
+        isLoginSuccess: state.reducer.isLoginSuccess,
+        loginError: state.reducer.loginError,
+        user: state.reducer.user,
+        visibleModal: state.reducer.visibleModal,
     };
 }
 

@@ -1,7 +1,6 @@
 import Promise from 'es6-promise';
 import file from '../file.json';
-import { combineReducers } from 'redux'
-import signupReducer from './SignupReducer'
+import Axios from 'axios';
 const LOGIN_PENDING = 'LOGIN_PENDING';
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 const LOGIN_ERROR = 'LOGIN_ERROR';
@@ -61,9 +60,20 @@ export function login(username, password){
         dispatch(setLoginPending(true));
         dispatch(setLoginSuccess(false, null));
         dispatch(setLoginError(null));
-
-        sendLoginRequest(username,password)
+        var bodyFormData = new FormData();
+        bodyFormData.set('userName', username);
+       sendLoginRequest(username,password)
+       //checking whether the user exists or not in DB
+        // Axios.get('https://e-commerce-application.herokuapp.com/login', bodyFormData)
+        
+        // Axios({
+        //     url: 'https://e-commerce-application.herokuapp.com/login',
+        //     method: 'get',
+        //     headers: {'Content-Type': 'application/json'},
+        //     data: {"fhasjkhfa": "kaljfiljn"},
+        // })
         .then(userData =>{
+            console.log("USER DATA", userData)
             dispatch(setLoginPending(false));
             dispatch(setLoginSuccess(true, userData));
 
@@ -77,7 +87,7 @@ export function login(username, password){
 
 
 // reducer function
-export function reducer(state={
+export default function reducer(state={
     isLoginPending: false,
     isLoginSuccess: false,
     loginError: null,
@@ -166,8 +176,3 @@ function sendLoginRequest(username, password){
        
     })
 }
-
-export default combineReducers({
-    reducer,
-    signupReducer
-  })

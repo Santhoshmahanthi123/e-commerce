@@ -152,6 +152,7 @@ handleSignUp=(e)=>{
               <span><Link to='/'>E-Comm</Link></span>
             </Menu.Item>
             <Menu.Item key="2"><a onClick={this.handleSignUp}>Sign Up</a></Menu.Item>
+            <Menu.Item key="3"><a onClick={this.handleClick} >Login</a></Menu.Item>
             
           </Menu>
         </Sider>
@@ -173,11 +174,11 @@ handleSignUp=(e)=>{
 }
 
 const mapStateToProps= (state) =>{
- 
+  console.log("STATE IS", state)
   return {
-    isLoginSuccess: state.isLoginSuccess,
-    user: state.user,
-    visibleModal: state.visibleModal,
+    isLoginSuccess: state.reducer.isLoginSuccess,
+    user: state.reducer.user,
+    visibleModal: state.reducer.visibleModal,
   }
 }
 

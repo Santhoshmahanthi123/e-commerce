@@ -36,11 +36,12 @@ class Routes extends React.Component{
     //     if(!this.state.clicked)
     //    return (<Route path="*" component= { ImageSlider }></Route>)
     //  }
+      
       console.log(this.props.visibleModal, 'In ROutes')
        return(
        <Switch>
           <Route  exact path="/" component= { ImageSlider } />
-          <PrivateLoginRoute path = "/Login" component={Login} currentUser={this.props.user} visibleModal={this.props.visibleModal}/>
+          <PrivateLoginRoute path = "/Login" component={Login} currentUser={this.props.user}/>
             {/* <PrivateRoute exact path = "/" component = { Profile } />    */}
             {/* use render function for redirecting to authenticated */}
             <PrivateRoute path = "/Profile" component = {Profile} currentUser={this.props.user}/> 
@@ -56,9 +57,9 @@ class Routes extends React.Component{
 }
 const mapStateToProps= (state) =>{
   return {
-    isLoginSuccess: state.isLoginSuccess,
-    user: state.user
-    
+    isLoginSuccess: state.reducer.isLoginSuccess,
+    user: state.reducer.user,
+    visibleModal: state.reducer.visibleModal
   }
 }
 
