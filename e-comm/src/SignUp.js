@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 import {signupFn} from './Reducers/SignupReducer';
 // import './SignUp.css'
 
 class SignUp extends Component {
-
+  constructor(props){
+    super(props);
+    console.log("%%%%%%%%%%%%%%5", props)
+    this.state ={};
+    //this.state.nextPage= this.props.nextPage
+  }
    check =() =>{
      //to check for password matching
     if (document.getElementById('password').value ===
@@ -34,8 +39,9 @@ class SignUp extends Component {
   }
   render() {
     //console.log(this.props.signup,"SIGNUP")
+    let {username, password}= this.state;      
     let {isSignupPending,isSignupSuccess, SignupError} = this.props;  
-    
+    console.log("Signup Success is :", isSignupSuccess)
     if(isSignupSuccess){
       return(
          <Redirect to={{
@@ -73,7 +79,7 @@ class SignUp extends Component {
               {isSignupPending && <div>Please wait..</div>
                   // jquery.getElementById()
               }
-              {isSignupSuccess && <div>Welcome</div>}S
+              {isSignupSuccess && <div>Welcome</div>}
               {SignupError && <div>{SignupError.message}</div>}
         </div>
       </form>

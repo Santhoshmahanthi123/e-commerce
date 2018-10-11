@@ -9,7 +9,7 @@ import { login, cancelAction } from './Reducers/Reducer';
 class Login extends Component {
     constructor(props){
         super(props);
-        console.log("%%%%%%%%%%%%%%5", props)
+        //console.log("%%%%%%%%%%%%%%5", props)
         this.state ={};
         this.state.nextPage= this.props.nextPage
     }

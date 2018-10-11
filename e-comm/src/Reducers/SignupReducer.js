@@ -48,36 +48,43 @@ export function signupReducer(state={
     }
 }
 
-export function signupFn(user){
+export function signupFn(username, password){
     return dispatch => {
         dispatch(setSignupPending(true));
         dispatch(setSignupSuccess(false, null));
         dispatch(SignupError(null));
 
-        sendSignupRequest(user)
-        .then(userData =>{
-            dispatch(setSignupPending(false));
-            dispatch(setSignupSuccess(true, userData));
+        //sendSignupRequest(username, password)
+        //error coming because the fxn call is not returning a promise. Better to use axios here so that a promise is returned
+           // .then(userData =>{
+        if(sendSignupRequest(username, password))
+            {
+                dispatch(setSignupPending(false));
+                // dispatch(setSignupSuccess(true, userData)); use this when using axios 
+                dispatch(setSignupSuccess(true, username));
 
-        })
-        .catch( err =>{
-            dispatch(setSignupPending(false));
-            dispatch(setSignupSuccess(err));
-        })
+            }
+       // })
+    //    .catch( err =>{
+    //         dispatch(setSignupPending(false));
+    //         dispatch(setSignupSuccess(err));
+    //     })
     };
 }
 
-function sendSignupRequest(user){
-    return true
+function sendSignupRequest(username, password){
+   // return true
     // create a post request
-    axios.post(`DB URL`, { user })
-    .then(res => {
-      console.log(res);
-      console.log(res.data);
-    })
-    .catch((error)=>{
-      console.log(error);
-        });
+    // axios.post(`DB URL`, { user })
+    // .then(res => {
+    //   console.log(res);
+    //   console.log(res.data);
+    // })
+    // .catch((error)=>{
+    //   console.log(error);
+    //     });
+    console.log("Data stored successfully: ", username,": ", password  )
+    return true
 }
 
 export default signupFn;
