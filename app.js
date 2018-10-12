@@ -26,9 +26,6 @@ app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-// app.use(require(multer({ dest: "./uploads/",rename:(fieldname, filename,next) =>{
-//       return filename;
-//     },})));
 
 app.use(require("express-session")({
     secret:"Sessions are interesting to learn",
@@ -56,40 +53,32 @@ app.post('/register',(req,res)=>{
     });
 });
 app.post('/Food',(req,res)=>{
-    Food.create(new Food({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}),(err,food)=>{
-        if(err){
-            console.log(err);
-            res.sendStatus(501)
-        }
-        else{
-            res.sendStatus(200);
-        }
-    });
+    new Food({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}).save()
+    .then((data) => {
+        res.json(data);
+    }).catch(err => {
+        res.send(err);
+    })
 });
 app.post('/Foot',(req,res)=>{
-    Foot.create(new Foot({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}),(err,foot)=>{
-        if(err){
-            console.log(err);
-            res.sendStatus(501)
-        }
-        else{
-            res.sendStatus(200);
-        }
-    });
+    new Foot({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}).save()
+    .then((data) => {
+        res.json(data);
+    }).catch(err => {
+        res.send(err);
+    })
 });
-app.post('/Cloath',(req,res)=>{
-    Cloath.create(new Cloath({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}),(err,cloath)=>{
-        if(err){
-            console.log(err);
-            res.sendStatus(501)
-        }
-        else{
-            res.sendStatus(200);
-        }
+    app.post('/Cloath',(req,res)=>{
+        new Cloath({name:req.body.name,description:req.body.description,imageURL:req.body.imageURL,price:req.body.price}).save()
+        .then((data) => {
+            res.json(data);
+        }).catch(err => {
+            res.send(err);
+        })
     });
-});
- app.get('/login',bodyparser.json(), (req,res)=>{
+ app.get('/login',  passport.authenticate('local'),bodyparser.json(), (req,res)=>{
      const body = JSON.stringify(req.body);
+
      console.log("#####################$$$$$", req.body)
      console.log("$$$$$$$$$$$$$$$$$$$$$", body)
      res.send("")
@@ -141,10 +130,6 @@ app.get('/Cloath',(req,res)=>{
         res.statusCode(501);
     })
 })
-
-// app.get('/Food', (req, res, next) => {
-//     res.json({'msg':'welcome to food route!'});
-// });
 app.use('/', routes); 
 function isLoggedIn(req,res,next)
 {
