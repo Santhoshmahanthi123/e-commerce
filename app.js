@@ -76,12 +76,13 @@ app.post('/Foot',(req,res)=>{
             res.send(err);
         })
     });
- app.get('/login',  passport.authenticate('local'),bodyparser.json(), (req,res)=>{
+ app.post('/login',  passport.authenticate('local',{  successRedirect:"/users",failureRedirect:"/login"}),bodyparser.json(),(req,res)=>{
      const body = JSON.stringify(req.body);
-
+    
      console.log("#####################$$$$$", req.body)
      console.log("$$$$$$$$$$$$$$$$$$$$$", body)
-     res.send("")
+
+    res.json({"msg":"hi nikki"})
  });
 app.get('/logout',(req,res)=>{
  req.logout();
@@ -99,7 +100,7 @@ app.get('/santhosh',isLoggedIn,(req,res)=>{
 
 })
 app.get('/users',(req,res)=>{
-    User.find().then((data)=>{
+    User.findOne().then((data)=>{
         res.json(data)
     }).catch((err)=>{
         console.log(err);
